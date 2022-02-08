@@ -202,10 +202,12 @@
 
 	p {
 		margin: 0 0 1.5em 0;
+		color: #05ff3b;
+		opacity: 0.5;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #817e81;
+		color: #05ff3b;
 		line-height: 1.5;
 		margin: 0 0 0.75em 0;
 	}
@@ -746,7 +748,7 @@
 				width: 3.75em;
 				height: 3.75em;
 				border-radius: 100%;
-				border: solid 1px #1eff00;
+				border: solid 1px #ffffff;
 				line-height: 3.75em;
 				overflow: hidden;
 				text-align: center;
@@ -769,11 +771,11 @@
 
 				ul.icons li a:before {
 					color: #000000;
-					text-shadow: 1.25px 0px 0px #02fd56, -1.25px 0px 0px #0bff02, 0px 1.25px 0px #04ff2e, 0px -1.25px 0px #02ff17;
+					text-shadow: 1.25px 0px 0px #ffffff, -1.25px 0px 0px #ffffff, 0px 1.25px 0px #f7faf7, 0px -1.25px 0px #ffffff;
 				}
 
 				ul.icons li a:hover:before {
-					text-shadow: 1.25px 0px 0px #ff0040, -1.25px 0px 0px #ff0040, 0px 1.25px 0px #fc0442, 0px -1.25px 0px #ff0040;
+					text-shadow: 1.25px 0px 0px #05ff3b, -1.25px 0px 0px #05ff3b, 0px 1.25px 0px #05ff3b, 0px -1.25px 0px #05ff3b;
 				}
 
 				ul.icons li a:before {
@@ -789,7 +791,7 @@
 				}
 
 				ul.icons li a:hover {
-					border-color: #f50440;
+					border-color: #05ff3b;
 					
 				}
 
@@ -908,7 +910,7 @@
 		-ms-transition: opacity 1s ease, -ms-transform 1s ease;
 		transition: opacity 1s ease, transform 1s ease;
 		padding: 4.5em 3em 3em 3em ;
-		background: #080808;
+		background: #000000;
 		border-radius: 4px;
 		cursor: default;
 		max-width: 100%;
@@ -928,7 +930,7 @@
 				display: block;
 				margin: 0 auto;
 				border-radius: 100%;
-				box-shadow: 0 0 0 1.5em #15ff00;
+				box-shadow: 0 0 0 1.5em #000000;
 			}
 
 			#main .avatar:before {
@@ -940,7 +942,7 @@
 				width: calc(100% + 6em);
 				height: 1px;
 				z-index: -1;
-				background: #09fa00;
+				background: #ffffff;
 			}
 
 		@media screen and (max-width: 480px) {
