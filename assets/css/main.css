@@ -104,7 +104,7 @@
 
 	body {
 		height: 100%;
-		background-color: #ee1414;
+		background-color: #fdfafa;
 		background-image: url("images/overlay.png"), -moz-linear-gradient(60deg, rgba(131, 130, 130, 0.774) 5%, rgba(131, 130, 130, 0.774)), url("../../images/bg.jpg");
 		background-image: url("images/overlay.png"), -webkit-linear-gradient(60deg, rgba(131, 130, 130, 0.774) 5%, rgba(131, 130, 130, 0.774)), url("../../images/bg.jpg");
 		background-image: url("images/overlay.png"), -ms-linear-gradient(60deg, rgba(131, 130, 130, 0.774) 5%, rgba(131, 130, 130, 0.774)), url("../../images/bg.jpg");
