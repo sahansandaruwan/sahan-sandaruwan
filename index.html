@@ -1,188 +1,361 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sahan Sandaruwan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    * { cursor: none !important; }
-    body {
-      font-family: 'Inter', sans-serif;
-      transition: background 0.5s ease, color 0.5s ease;
-      overflow-x: hidden;
+    :root {
+      --bg: #f8f7f4;
+      --fg: #141414;
+      --muted: #888;
+      --border: #e0ddd8;
+      --accent: #141414;
     }
-    html { scroll-behavior: smooth; }
-    .fade-in { animation: fadeIn 1s ease-in; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .hover-lift { transition: transform 0.3s ease; }
-    .hover-lift:hover { transform: translateY(-5px); }
 
-    /* Custom Cursor */
-    @media (min-width: 768px) {
-      #cursor, #cursor-follower { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
-      #cursor { width: 20px; height: 20px; border: 2px solid #fff; border-radius: 50%; transition: all 0.15s ease; }
-      #cursor-follower { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; transition: all 0.3s ease; z-index: 9998; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
-    @media (max-width: 767px) {
-      * { cursor: auto !important; }
-      #cursor, #cursor-follower { display: none; }
+
+    /* Layout */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
-    #cursor.hover { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-color: #fff; }
+
+    /* Header */
+    header {
+      padding: 64px 0 0;
+      opacity: 0;
+      animation: rise 0.9s ease forwards;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.6s ease;
+      margin-bottom: 32px;
+      display: block;
+    }
+    .avatar:hover { filter: grayscale(0%); }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 300;
+      font-size: clamp(28px, 5vw, 38px);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Nav */
+    nav {
+      margin-top: 40px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 28px;
+      opacity: 0;
+      animation: rise 0.9s 0.1s ease forwards;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--fg); }
+
+    /* Sections */
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      animation: rise 0.9s ease forwards;
+    }
+
+    section:nth-of-type(1) { animation-delay: 0.15s; }
+    section:nth-of-type(2) { animation-delay: 0.2s; }
+    section:nth-of-type(3) { animation-delay: 0.25s; }
+    section:nth-of-type(4) { animation-delay: 0.3s; }
+    section:nth-of-type(5) { animation-delay: 0.35s; }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* About */
+    .about-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 300;
+      font-size: clamp(17px, 2.5vw, 21px);
+      line-height: 1.65;
+      color: #2a2a2a;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill {
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: #555;
+      background: transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill:hover { border-color: var(--fg); color: var(--fg); }
+
+    /* Projects */
+    .project {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 12px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.2s;
+    }
+    .project:first-child { padding-top: 0; }
+    .project:last-child { border-bottom: none; padding-bottom: 0; }
+    .project:hover { opacity: 0.6; }
+
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 440px;
+    }
+
+    .project-arrow {
+      color: var(--muted);
+      font-size: 16px;
+      margin-top: 2px;
+    }
+
+    /* Education */
+    .edu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .edu-item:first-child { padding-top: 0; }
+    .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .edu-name { font-size: 14px; }
+    .edu-meta { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+    /* Contact */
+    .contact-email {
+      display: inline-block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 300;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid var(--fg);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+      margin-bottom: 36px;
+    }
+    .contact-email:hover { opacity: 0.5; }
+
+    .socials {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .social-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .social-link:hover { color: var(--fg); }
+
+    .social-link svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 32px 0 64px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      .edu-item { flex-direction: column; gap: 2px; }
+      .project { grid-template-columns: 1fr; }
+      .project-arrow { display: none; }
+    }
   </style>
 </head>
-<body class="bg-black text-gray-100">
+<body>
+  <div class="container">
 
-  <!-- Custom Cursor -->
-  <div id="cursor"></div>
-  <div id="cursor-follower"></div>
+    <header>
+      <img src="https://avatars.githubusercontent.com/u/84913793?v=4" alt="Sahan Sandaruwan" class="avatar" />
+      <h1>Sahan Sandaruwan</h1>
+      <p class="tagline">Builder · Learner · Creator</p>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="min-h-screen flex flex-col items-center justify-center px-6 fade-in">
-    <img src="https://avatars.githubusercontent.com/u/84913793?v=4" alt="Sahan" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 md:mb-8 grayscale hover:grayscale-0 transition duration-500" />
-    <h1 class="text-4xl md:text-5xl lg:text-7xl font-light mb-3 md:mb-4 tracking-tight text-center">Sahan Sandaruwan</h1>
-    <p class="text-base md:text-lg lg:text-xl text-gray-400 font-light text-center">Builder. Learner. Creator.</p>
-  </section>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-  <!-- About -->
-  <section class="max-w-2xl mx-auto px-6 py-16 md:py-20">
-    <h2 class="text-sm uppercase tracking-widest text-gray-400 mb-4 md:mb-6">About</h2>
-    <p class="text-lg md:text-xl lg:text-2xl font-light leading-relaxed text-gray-300">
-      A curious mind passionate about technology, design, and solving real-world problems. 
-      I believe in continuous learning and building things that matter.
-    </p>
-  </section>
+    <section id="about">
+      <p class="section-label">About</p>
+      <p class="about-text">
+        A curious mind passionate about technology, design, and solving real-world problems. I believe in continuous learning and building things that matter.
+      </p>
 
-  <!-- Skills -->
-  <section class="max-w-2xl mx-auto px-6 py-16 md:py-20">
-    <h2 class="text-sm uppercase tracking-widest text-gray-400 mb-6 md:mb-8">Skills</h2>
-    <div class="flex flex-wrap gap-2 md:gap-3">
-      <span class="px-3 py-2 md:px-4 md:py-2 border border-gray-700 rounded-full text-xs md:text-sm hover-lift">HTML</span>
-      <span class="px-3 py-2 md:px-4 md:py-2 border border-gray-700 rounded-full text-xs md:text-sm hover-lift">CSS / Tailwind</span>
-      <span class="px-3 py-2 md:px-4 md:py-2 border border-gray-700 rounded-full text-xs md:text-sm hover-lift">JavaScript</span>
-      <span class="px-3 py-2 md:px-4 md:py-2 border border-gray-700 rounded-full text-xs md:text-sm hover-lift">Python</span>
-      <span class="px-3 py-2 md:px-4 md:py-2 border border-gray-700 rounded-full text-xs md:text-sm hover-lift">Git</span>
-      <span class="px-3 py-2 md:px-4 md:py-2 border border-gray-700 rounded-full text-xs md:text-sm hover-lift">UI Design</span>
-    </div>
-  </section>
+      <div style="margin-top: 36px;">
+        <p class="section-label" style="margin-bottom: 16px;">Skills</p>
+        <div class="skills">
+          <span class="skill">HTML</span>
+          <span class="skill">CSS / Tailwind</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Python</span>
+          <span class="skill">Git</span>
+          <span class="skill">UI Design</span>
+        </div>
+      </div>
+    </section>
 
-  <!-- Projects -->
-  <section class="max-w-4xl mx-auto px-6 py-16 md:py-20">
-    <h2 class="text-sm uppercase tracking-widest text-gray-400 mb-8 md:mb-12">Selected Work</h2>
-    <div class="space-y-8 md:space-y-12">
-      <a href="https://your-portfolio-url.com" target="_blank" class="block border-b border-gray-800 pb-8 md:pb-12 hover-lift cursor-pointer transition">
-        <h3 class="text-xl md:text-2xl font-light mb-2">Portfolio Website</h3>
-        <p class="text-sm md:text-base text-gray-400">Personal site showcasing skills, projects, and contact information.</p>
+    <section id="work">
+      <p class="section-label">Selected Work</p>
+
+      <a href="https://your-portfolio-url.com" target="_blank" class="project">
+        <div>
+          <p class="project-title">Portfolio Website</p>
+          <p class="project-desc">Personal site showcasing skills, projects, and contact information.</p>
+        </div>
+        <span class="project-arrow">↗</span>
       </a>
 
-      <a href="https://your-invoice-generator-url.com" target="_blank" class="block border-b border-gray-800 pb-8 md:pb-12 hover-lift cursor-pointer transition">
-        <h3 class="text-xl md:text-2xl font-light mb-2">Invoice Generator</h3>
-        <p class="text-sm md:text-base text-gray-400">Web app for generating and exporting invoices with Bootstrap & JavaScript.</p>
+      <a href="https://your-invoice-generator-url.com" target="_blank" class="project">
+        <div>
+          <p class="project-title">Invoice Generator</p>
+          <p class="project-desc">Web app for generating and exporting invoices with Bootstrap & JavaScript.</p>
+        </div>
+        <span class="project-arrow">↗</span>
       </a>
 
-      <a href="https://your-adflow-url.com" target="_blank" class="block border-b border-gray-800 pb-8 md:pb-12 hover-lift cursor-pointer transition">
-        <h3 class="text-xl md:text-2xl font-light mb-2">AdFlow</h3>
-        <p class="text-sm md:text-base text-gray-400">Tool to collect and analyze online advertisements effectively.</p>
+      <a href="https://your-adflow-url.com" target="_blank" class="project">
+        <div>
+          <p class="project-title">AdFlow</p>
+          <p class="project-desc">Tool to collect and analyze online advertisements effectively.</p>
+        </div>
+        <span class="project-arrow">↗</span>
       </a>
-    </div>
-  </section>
+    </section>
 
-  <!-- Education -->
-  <section class="max-w-2xl mx-auto px-6 py-16 md:py-20">
-    <h2 class="text-sm uppercase tracking-widest text-gray-400 mb-8 md:mb-12">Education</h2>
-    <div class="space-y-6 md:space-y-8">
-      <div>
-        <h3 class="text-lg md:text-xl font-light mb-1">Google Business Intelligence Certificate</h3>
-        <p class="text-gray-400 text-xs md:text-sm">Coursera · Ongoing</p>
+    <section id="education">
+      <p class="section-label">Education</p>
+
+      <div class="edu-item">
+        <span class="edu-name">Google Business Intelligence Certificate</span>
+        <span class="edu-meta">Coursera · Ongoing</span>
       </div>
-      <div>
-        <h3 class="text-lg md:text-xl font-light mb-1">C++ Essentials 1</h3>
-        <p class="text-gray-400 text-xs md:text-sm">Cisco Networking Academy · Ongoing</p>
+      <div class="edu-item">
+        <span class="edu-name">C++ Essentials 1</span>
+        <span class="edu-meta">Cisco · Ongoing</span>
       </div>
-      <div>
-        <h3 class="text-lg md:text-xl font-light mb-1">Advanced Level Examination</h3>
-        <p class="text-gray-400 text-xs md:text-sm">Sri Lanka · 2024</p>
+      <div class="edu-item">
+        <span class="edu-name">Advanced Level Examination</span>
+        <span class="edu-meta">Sri Lanka · 2024</span>
       </div>
-    </div>
-  </section>
+    </section>
 
- <!-- Contact -->
-<section class="max-w-2xl mx-auto px-6 py-16 md:py-20 text-center">
-  <h2 class="text-sm uppercase tracking-widest text-gray-400 mb-6 md:mb-8">Let's Connect</h2>
-  <a href="mailto:your@email.com" class="inline-block border-b-2 border-gray-100 pb-1 text-base md:text-lg hover:border-gray-400 transition">
-    your@email.com
-  </a>
-  <div class="flex justify-center gap-4 md:gap-6 mt-8 md:mt-12">
-    <!-- GitHub -->
-    <a href="https://github.com/yourusername" target="_blank" class="text-gray-400 hover:text-gray-100 transition hover:scale-110">
-      <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.02c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.217.682-.482 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.157-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.34-2.22-.253-4.555-1.113-4.555-4.95 0-1.093.39-1.987 1.03-2.686-.103-.253-.446-1.27.098-2.645 0 0 .84-.27 2.75 1.026a9.564 9.564 0 012.5-.336 9.56 9.56 0 012.5.336c1.91-1.296 2.75-1.026 2.75-1.026.546 1.375.203 2.392.1 2.645.64.7 1.028 1.593 1.028 2.686 0 3.848-2.337 4.695-4.566 4.942.359.31.678.923.678 1.86 0 1.342-.012 2.423-.012 2.754 0 .268.18.58.688.48A10.02 10.02 0 0022 12.02C22 6.484 17.523 2 12 2z"/>
-      </svg>
-    </a>
+    <section id="contact">
+      <p class="section-label">Let's Connect</p>
+      <a href="mailto:your@email.com" class="contact-email">your@email.com</a>
+      <div class="socials">
+        <a href="https://github.com/yourusername" target="_blank" class="social-link">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.02c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.217.682-.482 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.157-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.34-2.22-.253-4.555-1.113-4.555-4.95 0-1.093.39-1.987 1.03-2.686-.103-.253-.446-1.27.098-2.645 0 0 .84-.27 2.75 1.026a9.564 9.564 0 012.5-.336 9.56 9.56 0 012.5.336c1.91-1.296 2.75-1.026 2.75-1.026.546 1.375.203 2.392.1 2.645.64.7 1.028 1.593 1.028 2.686 0 3.848-2.337 4.695-4.566 4.942.359.31.678.923.678 1.86 0 1.342-.012 2.423-.012 2.754 0 .268.18.58.688.48A10.02 10.02 0 0022 12.02C22 6.484 17.523 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/yourusername" target="_blank" class="social-link">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.967 0-1.75-.78-1.75-1.73 0-.95.783-1.73 1.75-1.73s1.75.78 1.75 1.73c0 .95-.783 1.73-1.75 1.73zm13.5 11.27h-3v-5.5c0-1.32-1.05-2.4-2.33-2.4-1.28 0-2.33 1.08-2.33 2.4v5.5h-3v-10h3v1.35c.42-.8 1.63-1.8 3.33-1.8 2.84 0 4.33 1.87 4.33 4.3v6.15z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://twitter.com/yourusername" target="_blank" class="social-link">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14.86 4.48 4.48 0 002-2.48 9.15 9.15 0 01-2.83 1.08 4.52 4.52 0 00-7.69 4.13A12.82 12.82 0 013 4.48a4.52 4.52 0 001.4 6.04 4.42 4.42 0 01-2.05-.57v.06a4.52 4.52 0 003.62 4.44 4.52 4.52 0 01-2.04.07 4.53 4.53 0 004.22 3.15 9 9 0 01-5.58 1.92A8.84 8.84 0 012 19.54 12.82 12.82 0 008.29 21c7.55 0 11.68-6.25 11.68-11.66 0-.18-.01-.35-.02-.53A8.36 8.36 0 0023 3z"/></svg>
+          Twitter
+        </a>
+        <a href="https://instagram.com/yourusername" target="_blank" class="social-link">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" stroke-width="2"></rect><path stroke-width="2" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5" stroke-width="2"></line></svg>
+          Instagram
+        </a>
+      </div>
+    </section>
 
-    <!-- LinkedIn -->
-    <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-gray-400 hover:text-gray-100 transition hover:scale-110">
-      <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.967 0-1.75-.78-1.75-1.73 0-.95.783-1.73 1.75-1.73s1.75.78 1.75 1.73c0 .95-.783 1.73-1.75 1.73zm13.5 11.27h-3v-5.5c0-1.32-1.05-2.4-2.33-2.4-1.28 0-2.33 1.08-2.33 2.4v5.5h-3v-10h3v1.35c.42-.8 1.63-1.8 3.33-1.8 2.84 0 4.33 1.87 4.33 4.3v6.15z"/>
-      </svg>
-    </a>
+    <footer>
+      <span>© 2025 Sahan Sandaruwan</span>
+    </footer>
 
-    <!-- Twitter -->
-    <a href="https://twitter.com/yourusername" target="_blank" class="text-gray-400 hover:text-gray-100 transition hover:scale-110">
-      <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M23 3a10.9 10.9 0 01-3.14.86 4.48 4.48 0 002-2.48 9.15 9.15 0 01-2.83 1.08 4.52 4.52 0 00-7.69 4.13A12.82 12.82 0 013 4.48a4.52 4.52 0 001.4 6.04 4.42 4.42 0 01-2.05-.57v.06a4.52 4.52 0 003.62 4.44 4.52 4.52 0 01-2.04.07 4.53 4.53 0 004.22 3.15 9 9 0 01-5.58 1.92A8.84 8.84 0 012 19.54 12.82 12.82 0 008.29 21c7.55 0 11.68-6.25 11.68-11.66 0-.18-.01-.35-.02-.53A8.36 8.36 0 0023 3z"/>
-      </svg>
-    </a>
-
-    <!-- Instagram -->
-    <a href="https://instagram.com/yourusername" target="_blank" class="text-gray-400 hover:text-gray-100 transition hover:scale-110">
-      <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" stroke-width="2"></rect>
-        <path stroke-width="2" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.5" y2="6.5" stroke-width="2"></line>
-      </svg>
-    </a>
   </div>
-</section>
-
-  <!-- Footer -->
-  <footer class="text-center py-12 text-sm text-gray-400">
-    © 2025 Sahan Sandaruwan
-  </footer>
-
-  <script>
-    // Custom Cursor
-    const cursor = document.getElementById('cursor');
-    const follower = document.getElementById('cursor-follower');
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top = mouseY + 'px';
-    });
-
-    function animateFollower() {
-      followerX += (mouseX - followerX) * 0.1;
-      followerY += (mouseY - followerY) * 0.1;
-      follower.style.left = followerX + 'px';
-      follower.style.top = followerY + 'px';
-      requestAnimationFrame(animateFollower);
-    }
-    animateFollower();
-
-    // Hover effects
-    const hoverElements = document.querySelectorAll('a, .hover-lift');
-    hoverElements.forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  </script>
 </body>
 </html>
